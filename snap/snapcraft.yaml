@@ -33,12 +33,12 @@ parts:
     after: [desktop-glib-only]
     source: https://github.com/diasurgical/devilutionx.git
     source-type: git
+    configflags:
+      - '-DCMAKE_INSTALL_PREFIX=/usr'
+      - '-DBINARY_RELEASE=ON'
     override-build: |
-      snapcraftctl set-version $(git -C $SNAPCRAFT_PART_SRC/ describe --tags)
+      snapcraftctl set-version "$(git -C $SNAPCRAFT_PART_SRC describe --tags)"
       snapcraftctl build
-
-      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/fonts/truetype
-      cp $SNAPCRAFT_PART_INSTALL/share/fonts/truetype/* $SNAPCRAFT_PART_INSTALL/usr/share/fonts/truetype/
 
     build-packages:
       - cmake
