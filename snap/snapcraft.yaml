@@ -18,7 +18,7 @@ grade: stable
 
 apps:
   devilutionx:
-    command: desktop-launch $SNAP/bin/devilutionx
+    command: desktop-launch $SNAP/usr/bin/devilutionx
     plugs:
       - x11
       - wayland
