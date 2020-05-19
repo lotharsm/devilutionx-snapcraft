@@ -3,9 +3,16 @@ base: core18
 adopt-info: devilutionx
 summary: DevilutionX - Diablo build for modern operating systems
 description: |
-    DevilutionX is a...
+    DevilutionX is a reimplementation of Blizzard's Diablo 1,
+    developed by careful and deep analysis of the original game files.
+    
+    This allows you to play Diablo 1 on a wide variety of operating systems,
+    including GNU/Linux.
 
-    Hack and slay through multiple worlds, fighting off enemies by jumping on them, bumping them from below or tossing objects at them, grabbing power-ups and other stuff on the way.
+    Even though DevilutionX is an open source project, the Diablo 1 game files
+    are not free and protected by Blizzard's copyright.
+    
+    Therefore, you need to provide your own legitimate copy of the game.
 confinement: strict
 grade: stable
 
