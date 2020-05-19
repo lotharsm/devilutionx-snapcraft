@@ -1,0 +1,70 @@
+name: devilutionx
+base: core18
+adopt-info: devilutionx
+summary: DevilutionX - Diablo build for modern operating systems
+description: |
+    DevilutionX is a...
+
+    Hack and slay through multiple worlds, fighting off enemies by jumping on them, bumping them from below or tossing objects at them, grabbing power-ups and other stuff on the way.
+confinement: strict
+grade: stable
+
+apps:
+  devilutionx:
+    command: desktop-launch $SNAP/bin/devilutionx
+    plugs:
+      - x11
+      - wayland
+      - unity7
+      - opengl
+      - audio-playback
+      - joystick
+      - home
+      - network
+      - network-bind
+
+layout:
+  /usr/share/fonts/truetype:
+    bind: $SNAP/usr/share/fonts/truetype
+
+parts:
+  devilutionx:   
+    plugin: cmake
+    after: [desktop-glib-only]
+    source: https://github.com/diasurgical/devilutionx.git
+    source-type: git
+    override-build: |
+      snapcraftctl set-version $(git -C $SNAPCRAFT_PART_SRC/ describe --tags)
+      snapcraftctl build
+
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/fonts/truetype
+      cp $SNAPCRAFT_PART_INSTALL/share/fonts/truetype/* $SNAPCRAFT_PART_INSTALL/usr/share/fonts/truetype/
+
+    build-packages:
+      - cmake
+      - g++
+      - libsdl2-dev
+      - libsdl2-mixer-dev
+      - libsdl2-ttf-dev
+      - libsodium-dev
+
+    stage-packages:
+      - libstdc++6
+      - libgl1-mesa-dri
+      - libgl1-mesa-glx
+      - libglu1-mesa
+      - libwayland-egl1-mesa
+      - libsdl2-2.0-0
+      - libsdl2-mixer-2.0-0
+      - libsdl2-ttf-2.0-0
+      - libsodium23
+
+  desktop-glib-only:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: glib-only
+    plugin: make
+    build-packages:
+      - libglib2.0-dev
+    stage-packages:
+      - libglib2.0-bin
+

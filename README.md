@@ -1,0 +1,1 @@
+# devilutionx-snapcraft
