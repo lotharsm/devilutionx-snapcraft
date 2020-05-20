@@ -18,7 +18,7 @@ grade: stable
 
 apps:
   devilutionx:
-    command: desktop-launch $SNAP/usr/bin/devilutionx
+    command: desktop-launch $SNAP/usr/bin/devilutionx --data-dir $SNAP_USER_COMMON
     plugs:
       - x11
       - wayland
@@ -28,6 +28,9 @@ apps:
       - joystick
       - network
       - network-bind
+
+    environment:
+      XDG_DATA_HOME: $SNAP_USER_COMMON/
 
 layout:
   /usr/share/fonts/truetype:
