@@ -73,8 +73,6 @@ parts:
   patches:
     source: snap/local/
     plugin: dump
-    prime:
-      - -*
 
   desktop-glib-only:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
