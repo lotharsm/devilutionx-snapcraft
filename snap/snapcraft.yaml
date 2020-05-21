@@ -46,6 +46,7 @@ parts:
       - '-DCMAKE_INSTALL_PREFIX=/usr'
       - '-DBINARY_RELEASE=ON'
     override-build: |
+      git apply --unsafe-paths --directory=$SNAPCRAFT_PART_SRC -p0 /root/project/snap/patches/001-missing-diabdat-notice.patch 
       snapcraftctl set-version "$(git -C $SNAPCRAFT_PART_SRC describe --tags)"
       snapcraftctl build
 
