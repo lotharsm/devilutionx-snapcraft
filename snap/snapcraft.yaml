@@ -40,14 +40,14 @@ layout:
 parts:
   devilutionx:   
     plugin: cmake
-    after: [desktop-glib-only]
+    after: [patches,desktop-glib-only]
     source: https://github.com/diasurgical/devilutionx.git
     source-type: git
     configflags:
       - '-DCMAKE_INSTALL_PREFIX=/usr'
       - '-DBINARY_RELEASE=ON'
     override-build: |
-      git apply --unsafe-paths --directory=$SNAPCRAFT_PART_SRC -p0 /root/project/snap/patches/001-missing-diabdat-notice.patch 
+      git apply --unsafe-path --directory=$SNAPCRAFT_PART_SRC -p0 $SNAPCRAFT_STAGE/patches/001-missing-diabdat-notice.patch
       snapcraftctl set-version "$(git -C $SNAPCRAFT_PART_SRC describe --tags)"
       snapcraftctl build
 
@@ -69,6 +69,12 @@ parts:
       - libsdl2-mixer-2.0-0
       - libsdl2-ttf-2.0-0
       - libsodium23
+
+  patches:
+    source: snap/local/
+    plugin: dump
+    prime:
+      - -*
 
   desktop-glib-only:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
