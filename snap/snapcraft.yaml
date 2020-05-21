@@ -31,6 +31,7 @@ apps:
 
     environment:
       XDG_DATA_HOME: $SNAP_USER_COMMON/
+      DBUS_FATAL_WARNINGS: 0
 
 layout:
   /usr/share/fonts/truetype:
