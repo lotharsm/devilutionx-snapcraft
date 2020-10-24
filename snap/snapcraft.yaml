@@ -39,16 +39,28 @@ layout:
 
 parts:
   devilutionx:   
-    plugin: cmake
+    plugin: nil
     after: [patches,desktop-glib-only]
     source: https://github.com/diasurgical/devilutionx.git
     source-type: git
-    configflags:
-      - '-DCMAKE_INSTALL_PREFIX=/usr'
-      - '-DBINARY_RELEASE=ON'
     override-build: |
-      patch -l --binary -d$SNAPCRAFT_PART_SRC -p0 -i $SNAPCRAFT_STAGE/patches/001-missing-diabdat-notice.patch
-      snapcraftctl set-version "$(git -C $SNAPCRAFT_PART_SRC describe --tags)"
+      last_committed_tag="$(git -C $SNAPCRAFT_PART_SRC describe --tags `git rev-list --tags --max-count=1`)"
+      trimmed_tag="$(echo $last_committed_tag | sed 's/desc\///' | sed 's/git//' | sed 's/^v//')"
+      last_released_tag="$(snap info devilutionx | awk '$1 == "latest/beta:" { print $2 }')"
+      # If the latest tag from the upstream project has not been released to
+      # beta, build that tag instead of master.
+      if [ "${trimmed_tag}" != "${last_released_tag}" ]; then
+        git fetch
+        git checkout "${last_committed_tag}"
+        snapcraftctl set-version $(git -C $SNAPCRAFT_PART_SRC describe --tags `git rev-list --tags --max-count=1` | sed 's/desc\///' | sed 's/git//' | sed 's/^v//')
+      else
+        snapcraftctl set-version "git"
+      fi
+      patch --binary -l -d$SNAPCRAFT_PART_SRC -p0 -i $SNAPCRAFT_STAGE/patches/001-missing-diabdat-notice.patch
+      cd build
+      cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$SNAPCRAFT_PART_INSTALL/usr -DBINARY_RELEASE=ON
+      make -j$(nproc)
+      make install
       snapcraftctl build
 
     build-packages:
