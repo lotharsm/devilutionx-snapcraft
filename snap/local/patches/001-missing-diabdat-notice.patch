@@ -1,13 +1,13 @@
---- Source/appfat.cpp
-+++ Source/appfat.cpp
-@@ -152,7 +152,9 @@ void InsertCDDlg()
-            1024,
-            "Unable to open main data archive (diabdat.mpq or spawn.mpq).\n"
-            "\n"
--           "Make sure that it is in the game folder and that the file name is in all lowercase.");
-+           "Make sure that it is in the game folder and that the file name is in all lowercase.\n"
-+           "Please copy the file diabdat.mpq from your Diablo game disc or from the GOG \n"
-+           "installer to the directory ~/snap/devilutionx/common/");
- 
-        UiErrorOkDialog("Data File Error", text);
-        app_fatal(NULL);
+--- Source/appfat.cpp	2022-04-23 09:18:55.288435181 +0200
++++ Source/appfat.cpp	2022-04-23 09:21:19.578810369 +0200
+@@ -108,7 +108,9 @@
+	std::string text = fmt::format(
+	    _("Unable to open main data archive ({:s}).\n"
+	      "\n"
+-	      "Make sure that it is in the game folder."),
++	      "Make sure that it is in the game folder.\n"
++	      "Please copy the file diabdat.mpq from your Diablo game disc or from the GOG \n"
++	      "installer to the directory ~/snap/devilutionx/common/"),
+	    archiveName);
+        
+	UiErrorOkDialog(_("Data File Error").c_str(), text.c_str());
