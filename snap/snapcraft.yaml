@@ -1,5 +1,5 @@
 name: devilutionx
-base: core18
+base: core20
 adopt-info: devilutionx
 summary: DevilutionX - Diablo build for modern operating systems
 description: |
@@ -18,7 +18,7 @@ grade: stable
 
 apps:
   devilutionx:
-    command: bin/desktop-launch $SNAP/usr/bin/devilutionx --data-dir $SNAP_USER_COMMON
+    command: bin/desktop-launch $SNAP/usr/local/devilutionx/devilutionx --data-dir $SNAP_USER_COMMON
     plugs:
       - x11
       - wayland
@@ -56,16 +56,19 @@ parts:
       else
         snapcraftctl set-version "git"
       fi
-      patch --binary -l -d$SNAPCRAFT_PART_SRC -p0 -i $SNAPCRAFT_STAGE/patches/001-missing-diabdat-notice.patch
-      cd build
-      cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$SNAPCRAFT_PART_INSTALL/usr -DBINARY_RELEASE=ON
+      patch --binary -l -d $SNAPCRAFT_PART_SRC -p0 -i ${SNAPCRAFT_STAGE}/patches/001-missing-diabdat-notice.patch
+      mkdir build && cd build
+      cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
       make -j$(nproc)
-      make install
+      mkdir -p ${SNAPCRAFT_PART_INSTALL}/usr/local/devilutionx/
+      cp -a devilutionx 3rdParty assets ${SNAPCRAFT_PART_INSTALL}/usr/local/devilutionx/
       snapcraftctl build
 
     build-packages:
       - cmake
       - g++
+      - libbz2-1.0
+      - libbz2-dev
       - libsdl2-dev
       - libsdl2-mixer-dev
       - libsdl2-ttf-dev
@@ -80,6 +83,7 @@ parts:
       - libsdl2-2.0-0
       - libsdl2-mixer-2.0-0
       - libsdl2-ttf-2.0-0
+      - libsodium23
 
   patches:
     source: snap/local/
