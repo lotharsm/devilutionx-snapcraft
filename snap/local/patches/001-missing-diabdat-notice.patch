@@ -1,5 +1,3 @@
---- Source/appfat.cpp	2022-04-23 09:18:55.288435181 +0200
-+++ Source/appfat.cpp	2022-04-23 09:21:19.578810369 +0200
 @@ -108,7 +108,9 @@
 	std::string text = fmt::format(
 	    _("Unable to open main data archive ({:s}).\n"
