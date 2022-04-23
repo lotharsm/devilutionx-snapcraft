@@ -56,7 +56,7 @@ parts:
       else
         snapcraftctl set-version "git"
       fi
-      patch --binary -l -d $SNAPCRAFT_PART_SRC -p0 -i ${SNAPCRAFT_STAGE}/patches/001-missing-diabdat-notice.patch
+      patch --binary -l ${SNAPCRAFT_PART_SRC}/Source/appfat.cpp -i ${SNAPCRAFT_STAGE}/patches/001-missing-diabdat-notice.patch
       mkdir build && cd build
       cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
       make -j$(nproc)
